@@ -53,7 +53,7 @@ export const places: Place[] = [
     days: ["sun", "mon", "tue"],
   },
   {
-    id: 14,
+    id: 4,
     name: "소랑아시",
     desc: "월 12:00 중문 소품샵 · 제주 풍경 핸드메이드 소품",
     address: "서귀포시 중문관광로 27, 1층",
@@ -65,7 +65,7 @@ export const places: Place[] = [
     days: ["mon"],
   },
   {
-    id: 4,
+    id: 5,
     name: "백한철꽈배기 & 식빵",
     desc: "월 12:45~13:00 포장 목표 · 소진 시 생략",
     address: "서귀포시 남원읍 남한로21번길 56",
@@ -77,7 +77,7 @@ export const places: Place[] = [
     days: ["mon"],
   },
   {
-    id: 5,
+    id: 6,
     name: "오는정김밥",
     desc: "월 14:35 방문 예약 · 화 09:00 픽업 목표",
     address: "서귀포시 동문동로 2",
@@ -89,7 +89,7 @@ export const places: Place[] = [
     days: ["mon", "tue"],
   },
   {
-    id: 6,
+    id: 7,
     name: "봉주르마담",
     desc: "월 15:10 빵 포장",
     address: "서귀포시 대청로 33, 오름빌딩1차 103호",
@@ -101,7 +101,7 @@ export const places: Place[] = [
     days: ["mon"],
   },
   {
-    id: 7,
+    id: 8,
     name: "전원일기 본점",
     desc: "월 17:45 저녁",
     address: "서귀포시 이어도로 1065",
@@ -113,7 +113,7 @@ export const places: Place[] = [
     days: ["mon"],
   },
   {
-    id: 8,
+    id: 9,
     name: "카페루시아 본점",
     desc: "화 11:15 바다봐줘야지",
     address: "서귀포시 안덕면 난드르로 49-17",
@@ -125,7 +125,7 @@ export const places: Place[] = [
     days: ["tue"],
   },
   {
-    id: 9,
+    id: 10,
     name: "춘미향 제주산방산점",
     desc: "화 12:20 점심",
     address: "서귀포시 산방로 378",
@@ -137,7 +137,7 @@ export const places: Place[] = [
     days: ["tue"],
   },
   {
-    id: 10,
+    id: 11,
     name: "9.81파크 제주",
     desc: "화 13:50 바람맞으면서 루지타줘야됨..",
     address: "제주시 애월읍 천덕로 880-24",
@@ -149,7 +149,7 @@ export const places: Place[] = [
     days: ["tue"],
   },
   {
-    id: 11,
+    id: 12,
     name: "애월 한담해안산책로",
     desc: "화 16:05 바다 산책",
     address: "제주시 애월읍 곽지리 1359 일대",
@@ -161,7 +161,7 @@ export const places: Place[] = [
     days: ["tue"],
   },
   {
-    id: 12,
+    id: 13,
     name: "귤귤스토어 도두점",
     desc: "화 17:20 미피 굿즈 쇼핑",
     address: "제주시 서해안로 238",
@@ -173,7 +173,7 @@ export const places: Place[] = [
     days: ["tue"],
   },
   {
-    id: 13,
+    id: 14,
     name: "더리트리브",
     desc: "월 16:00~17:00 카페 · 월요일 영업",
     address: "서귀포시 안덕면 화순로 67",
@@ -186,43 +186,43 @@ export const places: Place[] = [
   },
 ];
 
-export const dailyRoutes: Record<DayKey, string[]> = {
+export interface RouteItem {
+  text: string;
+  placeId?: number;
+}
+
+export const dailyRoutes: Record<DayKey, RouteItem[]> = {
   sun: [
-    "16:35 김포 출발 → 17:50 제주 도착",
-    "18:15~19:00 렌터카 인수",
-    "19:45~20:00 명호돗갈비 중문본점 도착 목표",
-    "21:00~21:20 제주신라호텔 체크인하고 시간되면 수영장",
+    { text: "16:35 김포 출발 → 17:50 제주 도착", placeId: 1 },
+    { text: "18:15~19:00 렌터카 인수" },
+    { text: "19:45~20:00 명호돗갈비 중문본점 도착 목표", placeId: 2 },
+    { text: "21:00~21:20 제주신라호텔 체크인하고 시간되면 수영장", placeId: 3 },
   ],
   mon: [
-    "08:00 조식",
-    "09:30~10:55 패밀리 풀",
-    "11:25~11:55 수영장 짬뽕",
-    "12:00~12:30 소랑아시 소품 구경",
-    "12:45~13:00 백한철꽈배기 포장",
-    "14:35 오는정김밥 예약",
-    "15:10 봉주르마담 포장",
-    "16:00~17:00 더리트리브",
-    "17:45 전원일기 저녁",
-    "19:00 전후 호텔 복귀",
+    { text: "08:00 조식 → 패밀리 풀 → 수영장 짬뽕", placeId: 3 },
+    { text: "12:00~12:30 소랑아시 소품 구경", placeId: 4 },
+    { text: "12:45~13:00 백한철꽈배기 포장", placeId: 5 },
+    { text: "14:35 오는정김밥 예약", placeId: 6 },
+    { text: "15:10 봉주르마담 포장", placeId: 7 },
+    { text: "16:00~17:00 더리트리브", placeId: 14 },
+    { text: "17:45 전원일기 저녁", placeId: 8 },
+    { text: "19:00 전후 호텔 복귀", placeId: 3 },
   ],
   tue: [
-    "08:30 호텔 출발",
-    "09:00 오는정김밥 픽업 목표",
-    "09:40 픽업가져와서 김밥먹어야함 11:00 전 체크아웃",
-    "11:15~11:55 카페루시아",
-    "12:20~13:10 춘미향 갈치조림이랑 미역국 존맛탱",
-    "13:50~15:40 9.81파크",
-    "16:05~16:40 애월 한담산책로 찍먹하기",
-    "17:20~17:55 귤귤스토어 · 미피",
-    "18:20~18:40 렌터카 반납 · 19:00 전후 공항 도착 목표",
-    "20:45 제주 출발 → 22:00 김포 도착",
+    { text: "08:30 호텔 출발 → 09:00 오는정김밥 픽업 → 호텔 김밥 먹고 11:00 전 체크아웃", placeId: 3 },
+    { text: "11:15~11:55 카페루시아", placeId: 9 },
+    { text: "12:20~13:10 춘미향 갈치조림이랑 미역국 존맛탱", placeId: 10 },
+    { text: "13:50~15:40 9.81파크", placeId: 11 },
+    { text: "16:05~16:40 애월 한담산책로 찍먹하기", placeId: 12 },
+    { text: "17:20~17:55 귤귤스토어 · 미피", placeId: 13 },
+    { text: "18:20~18:40 렌터카 반납 → 20:45 제주 출발 → 22:00 김포", placeId: 1 },
   ],
 };
 
 export const dailyStops: Record<DayKey, number[]> = {
   sun: [1, 2, 3],
-  mon: [3, 14, 4, 5, 6, 13, 7],
-  tue: [3, 5, 8, 9, 10, 11, 12, 1],
+  mon: [3, 4, 5, 6, 7, 14, 8],
+  tue: [3, 6, 9, 10, 11, 12, 13, 1],
 };
 
 /** Route polyline points per day (connecting stop coords in order) */

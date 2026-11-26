@@ -23,12 +23,11 @@ export default function Home() {
   }, []);
 
   const handleCardFocus = useCallback((id: number) => {
-    setFocusedId(id);
+    setFocusedId((prev) => (prev === id ? null : id));
     const map = document.getElementById("jeju-map");
     if (map) {
       map.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-    setTimeout(() => setFocusedId(null), 3000);
   }, []);
 
   return (
@@ -52,7 +51,7 @@ export default function Home() {
         />
 
         {/* Route order */}
-        <RouteOrder selected={selected} />
+        <RouteOrder selected={selected} onFocus={handleCardFocus} />
 
         {/* Note */}
         <div className="rounded-2xl bg-soft border border-line px-5 py-4 text-[13px] text-mute leading-relaxed">

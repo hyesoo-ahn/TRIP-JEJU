@@ -170,6 +170,13 @@ export default function JejuMap({
           const isFocused = place.id === focusedId;
           const [cx, cy] = place.coords;
           const [dx, dy] = place.labelOffset;
+          const stopIndex = isAll
+            ? null
+            : activeStops.indexOf(place.id);
+          const displayNum =
+            stopIndex != null && stopIndex >= 0
+              ? stopIndex + 1
+              : place.id;
 
           return (
             <g
@@ -245,7 +252,7 @@ export default function JejuMap({
                   transition: "fill 300ms cubic-bezier(0.2,0.7,0.1,1)",
                 }}
               >
-                {place.id}
+                {displayNum}
               </text>
 
               {/* Label */}

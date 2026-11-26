@@ -11,6 +11,7 @@ import {
 interface JejuMapProps {
   selected: FilterKey;
   onPlaceClick: (id: number) => void;
+  focusedId?: number | null;
 }
 
 const routeColors: Record<DayKey, string> = {
@@ -21,18 +22,28 @@ const routeColors: Record<DayKey, string> = {
 
 const days: DayKey[] = ["sun", "mon", "tue"];
 
-export default function JejuMap({ selected, onPlaceClick }: JejuMapProps) {
+export default function JejuMap({
+  selected,
+  onPlaceClick,
+  focusedId,
+}: JejuMapProps) {
   const isAll = selected === "all";
   const activeStops = isAll
     ? places.map((p) => p.id)
     : dailyStops[selected as DayKey];
 
+  const sortedPlaces = [...places].sort((a, b) => {
+    if (a.id === focusedId) return 1;
+    if (b.id === focusedId) return -1;
+    return 0;
+  });
+
   return (
-    <div className="overflow-auto rounded-2xl border border-line bg-soft">
+    <div id="jeju-map" className="overflow-auto rounded-2xl border border-line bg-soft">
       <svg
         viewBox="0 0 960 560"
         className="block min-w-[680px] w-full h-auto"
-        aria-label="제주도 여행 동선과 13개 방문지"
+        aria-label="제주도 여행 동선과 방문지"
       >
         {/* Jeju island */}
         <path
@@ -153,9 +164,10 @@ export default function JejuMap({ selected, onPlaceClick }: JejuMapProps) {
           );
         })}
 
-        {/* Place markers */}
-        {places.map((place) => {
+        {/* Place markers — focused one renders last (on top) */}
+        {sortedPlaces.map((place) => {
           const isActive = activeStops.includes(place.id);
+          const isFocused = place.id === focusedId;
           const [cx, cy] = place.coords;
           const [dx, dy] = place.labelOffset;
 
@@ -169,6 +181,34 @@ export default function JejuMap({ selected, onPlaceClick }: JejuMapProps) {
                 transition: "opacity 400ms cubic-bezier(0.2,0.7,0.1,1)",
               }}
             >
+              {/* Pulse ring for focused marker */}
+              {isFocused && (
+                <circle
+                  cx={cx}
+                  cy={cy}
+                  r="20"
+                  fill="none"
+                  stroke="var(--color-accent)"
+                  strokeWidth="2"
+                  opacity="0.6"
+                >
+                  <animate
+                    attributeName="r"
+                    from="14"
+                    to="28"
+                    dur="1s"
+                    repeatCount="indefinite"
+                  />
+                  <animate
+                    attributeName="opacity"
+                    from="0.7"
+                    to="0"
+                    dur="1s"
+                    repeatCount="indefinite"
+                  />
+                </circle>
+              )}
+
               {/* Connector line */}
               <line
                 x1={cx}
@@ -183,10 +223,14 @@ export default function JejuMap({ selected, onPlaceClick }: JejuMapProps) {
               <circle
                 cx={cx}
                 cy={cy}
-                r="12"
-                fill="var(--color-accent)"
+                r={isFocused ? 14 : 12}
+                fill={isFocused ? "var(--fg)" : "var(--color-accent)"}
                 stroke="var(--bg)"
                 strokeWidth="2.5"
+                style={{
+                  transition:
+                    "r 300ms cubic-bezier(0.2,0.7,0.1,1), fill 300ms cubic-bezier(0.2,0.7,0.1,1)",
+                }}
               />
 
               {/* Number */}
@@ -195,8 +239,11 @@ export default function JejuMap({ selected, onPlaceClick }: JejuMapProps) {
                 y={cy + 0.5}
                 textAnchor="middle"
                 dominantBaseline="central"
-                fill="var(--fg)"
+                fill={isFocused ? "var(--color-accent)" : "var(--fg)"}
                 className="text-[9px] font-extrabold pointer-events-none"
+                style={{
+                  transition: "fill 300ms cubic-bezier(0.2,0.7,0.1,1)",
+                }}
               >
                 {place.id}
               </text>

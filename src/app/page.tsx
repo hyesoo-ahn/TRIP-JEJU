@@ -11,6 +11,7 @@ import PlaceGrid from "@/components/PlaceGrid";
 
 export default function Home() {
   const [selected, setSelected] = useState<FilterKey>("all");
+  const [focusedId, setFocusedId] = useState<number | null>(null);
 
   const handlePlaceClick = useCallback((id: number) => {
     const el = document.getElementById(`place-${id}`);
@@ -19,6 +20,15 @@ export default function Home() {
       el.classList.add("ring-2", "ring-fg");
       setTimeout(() => el.classList.remove("ring-2", "ring-fg"), 1500);
     }
+  }, []);
+
+  const handleCardFocus = useCallback((id: number) => {
+    setFocusedId(id);
+    const map = document.getElementById("jeju-map");
+    if (map) {
+      map.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    setTimeout(() => setFocusedId(null), 3000);
   }, []);
 
   return (
@@ -35,20 +45,23 @@ export default function Home() {
         </div>
 
         {/* Map */}
-        <JejuMap selected={selected} onPlaceClick={handlePlaceClick} />
+        <JejuMap
+          selected={selected}
+          onPlaceClick={handlePlaceClick}
+          focusedId={focusedId}
+        />
 
         {/* Route order */}
         <RouteOrder selected={selected} />
 
         {/* Note */}
         <div className="rounded-2xl bg-soft border border-line px-5 py-4 text-[13px] text-mute leading-relaxed">
-          마커를 누르면 아래 방문지로 이동해요. 해안선은 개략 위치이며, 점선은
-          방문 순서를 이은 선이에요. 실제 차량 경로는 각 장소의 네이버 지도에서
-          확인하세요.
+          마커를 누르면 아래 방문지로 이동해요. 번호를 누르면 지도에서 해당
+          마커가 강조돼요.
         </div>
 
         {/* Place cards */}
-        <PlaceGrid selected={selected} />
+        <PlaceGrid selected={selected} onFocus={handleCardFocus} />
       </div>
     </main>
   );

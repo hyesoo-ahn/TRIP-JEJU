@@ -4,6 +4,7 @@ import { type DayKey, type FilterKey, dailyStops, places } from "@/data/trip";
 
 interface PlaceGridProps {
   selected: FilterKey;
+  onFocus?: (id: number) => void;
 }
 
 const placeEmoji: Record<number, string> = {
@@ -23,7 +24,7 @@ const placeEmoji: Record<number, string> = {
   14: "🛍️",
 };
 
-export default function PlaceGrid({ selected }: PlaceGridProps) {
+export default function PlaceGrid({ selected, onFocus }: PlaceGridProps) {
   const isAll = selected === "all";
   const stops = isAll ? null : dailyStops[selected as DayKey];
 
@@ -51,13 +52,18 @@ export default function PlaceGrid({ selected }: PlaceGridProps) {
             <span className="tossface inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent-soft)] text-lg">
               {placeEmoji[place.id] ?? "📍"}
             </span>
-            <div>
+            <div className="flex items-center gap-2">
               <strong className="text-[15px] font-bold leading-snug">
                 {place.name}
               </strong>
-              <span className="num ml-2 text-[11px] font-bold text-mute">
-                #{String(place.id).padStart(2, "0")}
-              </span>
+              <button
+                type="button"
+                onClick={() => onFocus?.(place.id)}
+                className="num inline-flex h-6 w-6 items-center justify-center rounded-full bg-fg text-[11px] font-bold text-bg transition-transform hover:scale-110 active:scale-95"
+                aria-label={`지도에서 ${place.name} 위치 보기`}
+              >
+                {place.id}
+              </button>
             </div>
           </div>
           <p className="mt-2 text-[13px] text-fg">{place.desc}</p>

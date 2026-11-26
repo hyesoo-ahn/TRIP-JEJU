@@ -74,9 +74,10 @@ export default function PlaceGrid({ selected, onFocus }: PlaceGridProps) {
               href={place.naverUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rule-link mt-3 inline-flex items-center gap-1 text-[13px] font-semibold text-sub"
+              className="rule-link mt-3 inline-flex items-center gap-1.5 text-[13px] font-semibold text-sub"
             >
-              <span className="tossface">🗺️</span> 네이버 지도
+              <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-[#03C75A] text-[11px] font-extrabold text-white leading-none">N</span>
+              네이버 지도
             </a>
           </article>
         );
